@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shadow Claw Dashboard</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="dashboard-body">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <h2 class="sidebar-logo">SHADOW CLAW</h2>
+    <nav>
+      <a href="index.html">⬅ Back to Home</a>
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">AI Control</a>
+      <a href="#">Automation</a>
+      <a href="#">Analytics</a>
+      <a href="#">Settings</a>
+    </nav>
+  </aside>
+
+  <!-- ===== MAIN DASHBOARD ===== -->
+  <main class="dashboard-main">
+
+    <header class="dash-header">
+      <h1>Control Center</h1>
+      <div class="status-indicator">System Online</div>
+    </header>
+
+    <!-- STAT CARDS -->
+    <section class="dash-cards">
+      <div class="dash-card">
+        <h3>Active Processes</h3>
+        <p>12 Running</p>
+      </div>
+      <div class="dash-card">
+        <h3>AI Status</h3>
+        <p>Optimal Performance</p>
+      </div>
+      <div class="dash-card">
+        <h3>Network Activity</h3>
+        <p>Secure & Stable</p>
+      </div>
+    </section>
+
+    <!-- ACTIVITY PANEL -->
+    <section class="dash-panel">
+      <h2>System Activity</h2>
+
+      <canvas id="activityChart"></canvas>
+
+      <div class="activity-box" id="logBox">
+        > Initializing Shadow Claw systems...
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== LOG SYSTEM ===== -->
+  <script>
+    const logs = [
+      "AI module loaded successfully.",
+      "Automation protocol synced.",
+      "Monitoring network stability...",
+      "Analyzing behavioral patterns...",
+      "Shadow Claw operating at optimal performance.",
+      "Live data stream secured."
+    ];
+
+    let logIndex = 0;
+    const logBox = document.getElementById("logBox");
+
+    setInterval(() => {
+      if (logIndex < logs.length) {
+        logBox.innerHTML += "<br>> " + logs[logIndex];
+        logBox.scrollTop = logBox.scrollHeight;
+        logIndex++;
+      } else {
+        logIndex = 0;
+        logBox.innerHTML = "> System monitoring restarted...";
+      }
+    }, 2000);
+  </script>
+
+  <!-- ===== REALTIME CHART ===== -->
+  <script>
+    const canvas = document.getElementById("activityChart");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = 200;
+    }
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    let data = [40, 60, 50, 70, 65, 80, 60, 75];
+
+    function drawChart() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height - data[0]);
+
+      for (let i = 1; i < data.length; i++) {
+        ctx.lineTo(i * (canvas.width / data.length), canvas.height - data[i]);
+      }
+
+      ctx.strokeStyle = "#00E0FF";
+      ctx.lineWidth = 4;
+      ctx.shadowColor = "#7B3FE4";
+      ctx.shadowBlur = 18;
+      ctx.stroke();
+    }
+
+    function updateData() {
+      data.shift();
+      data.push(40 + Math.random() * 50);
+      drawChart();
+    }
+
+    setInterval(updateData, 1500);
+    drawChart();
+  </script>
+
+</body>
+</html>
